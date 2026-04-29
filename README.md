@@ -125,3 +125,8 @@ MIT License — Free to use, modify, and distribute with attribution.
 <strong>Made with ❤️ in Surat, India 🇮🇳</strong><br>
 <em>Coral Heights Society Vehicle Registration System © 2025–2026</em>
 </div>
+
+
+---
+
+*Last updated: April 29, 2026*
