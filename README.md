@@ -5,6 +5,7 @@
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![WhatsApp](https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-2.0-blue?style=for-the-badge)
 
 > **A Wing · 2026 · Late Submission Portal**  
 > Digital vehicle registration system for Coral Heights residential society — fill once, submit via WhatsApp instantly.
@@ -56,7 +57,7 @@ The **Coral Heights Vehicle Registration Portal** is a fully client-side, multil
 
 ```
 coral-heights-vehicle-registration/
-├── Coral-Heights-A-wing-late-submission-April-2026.html   ← Main portal (updated)
+├── Coral-Heights-A-wing-late-submission-April-2026.html   ← Main portal v2.0 (updated Apr 2026)
 ├── coral_heights_vehicle_form.html                        ← Base form template
 └── README.md                                              ← This file
 ```
@@ -113,4 +114,4 @@ MIT License — Free to use, adapt, and share with attribution.
 
 ---
 
-*Last updated: April 2026 · Coral Heights A Wing · Ahmedabad, Gujarat*
+*Last updated: April 2026 · Coral Heights A Wing · Ahmedabad, Gujarat · v2.0*
