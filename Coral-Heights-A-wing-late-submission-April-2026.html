@@ -5,10 +5,621 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Vehicle Registration — Coral Heights A Wing</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+Gujarati:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
-<!-- Coral Heights A Wing Vehicle Registration Portal v2.0 April 2026 -->
-<!-- Login: User ID = Coral Heights | Password = Awing@123 -->
+<style>
+:root {
+  --navy: #192840;
+  --navy-dark: #0f1b2d;
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --cream: #fdf6e3;
+  --white: #ffffff;
+  --text-dark: #1a1a2e;
+  --text-med: #4a5568;
+  --text-light: #718096;
+  --border: rgba(201,168,76,0.25);
+  --shadow: 0 4px 24px rgba(25,40,64,0.12);
+  --radius: 14px;
+  --transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body { font-family:'Outfit',sans-serif; background:#f0f4f8; color:var(--text-dark); min-height:100vh; }
+
+/* ===== LOGIN SCREEN ===== */
+#loginScreen {
+  display:flex; align-items:center; justify-content:center;
+  min-height:100vh; background:linear-gradient(135deg,var(--navy-dark) 0%,var(--navy) 60%,#2a4a6b 100%);
+  padding:20px;
+}
+.login-card {
+  background:rgba(255,255,255,0.06); backdrop-filter:blur(20px);
+  border:1px solid rgba(201,168,76,0.3); border-radius:24px;
+  padding:48px 40px; width:100%; max-width:420px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.4);
+  text-align:center;
+}
+.login-logo {
+  width:72px; height:72px; background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  margin:0 auto 20px; font-size:28px; font-weight:700; color:var(--navy-dark);
+  font-family:'Cormorant Garamond',serif; box-shadow:0 8px 24px rgba(201,168,76,0.4);
+}
+.login-title { color:var(--white); font-size:24px; font-weight:700; margin-bottom:6px; }
+.login-sub { color:rgba(255,255,255,0.55); font-size:13px; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:32px; }
+.login-field { margin-bottom:18px; text-align:left; }
+.login-field label { display:block; color:rgba(255,255,255,0.7); font-size:12px; letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
+.login-field input {
+  width:100%; padding:14px 18px; background:rgba(255,255,255,0.08);
+  border:1px solid rgba(201,168,76,0.3); border-radius:10px;
+  color:var(--white); font-size:15px; font-family:'Outfit',sans-serif;
+  transition:var(--transition); outline:none;
+}
+.login-field input:focus { border-color:var(--gold); background:rgba(255,255,255,0.12); }
+.login-field input::placeholder { color:rgba(255,255,255,0.3); }
+.login-btn {
+  width:100%; padding:16px; background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  border:none; border-radius:12px; color:var(--navy-dark); font-size:16px;
+  font-weight:700; font-family:'Outfit',sans-serif; cursor:pointer;
+  transition:var(--transition); margin-top:8px; letter-spacing:0.5px;
+}
+.login-btn:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(201,168,76,0.5); }
+.login-err { color:#ff6b6b; font-size:13px; margin-top:14px; display:none; }
+.login-secure { color:rgba(255,255,255,0.4); font-size:12px; margin-top:20px; }
+
+/* ===== MAIN APP ===== */
+#mainApp { display:none; }
+.app-header {
+  background:linear-gradient(135deg,var(--navy-dark),var(--navy));
+  color:var(--white); padding:28px 20px 24px; text-align:center;
+  position:sticky; top:0; z-index:100;
+  box-shadow:0 4px 20px rgba(0,0,0,0.3);
+}
+.header-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  background:rgba(201,168,76,0.15); border:1px solid rgba(201,168,76,0.3);
+  border-radius:20px; padding:5px 14px; font-size:11px;
+  letter-spacing:1.5px; text-transform:uppercase; color:var(--gold-light);
+  margin-bottom:12px;
+}
+.header-logo {
+  width:56px; height:56px; background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  margin:0 auto 14px; font-size:22px; font-weight:700;
+  font-family:'Cormorant Garamond',serif; color:var(--navy-dark);
+  box-shadow:0 6px 18px rgba(201,168,76,0.35);
+}
+.app-header h1 { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:700; margin-bottom:4px; }
+.app-header .subtitle { font-size:13px; opacity:0.65; letter-spacing:0.5px; }
+.lang-row { display:flex; gap:8px; justify-content:center; margin-top:6px; }
+.lang-tag { font-size:11px; opacity:0.5; letter-spacing:0.3px; }
+
+.container { max-width:680px; margin:0 auto; padding:20px 16px 40px; }
+
+.notice-banner {
+  background:linear-gradient(135deg,#1a3a5c,#0f2240);
+  border:1px solid rgba(201,168,76,0.35); border-radius:14px;
+  padding:18px 20px; margin-bottom:24px; text-align:center;
+}
+.notice-banner p { color:rgba(255,255,255,0.9); font-size:14px; line-height:1.6; }
+.notice-banner .notice-en { color:var(--gold-light); font-weight:600; }
+.notice-banner .notice-alt { color:rgba(255,255,255,0.6); font-size:12px; margin-top:4px; }
+
+.card {
+  background:var(--white); border-radius:var(--radius);
+  box-shadow:var(--shadow); margin-bottom:20px; overflow:hidden;
+  border:1px solid rgba(0,0,0,0.04);
+}
+.card-header {
+  background:linear-gradient(135deg,var(--navy),#2a4a6b);
+  padding:18px 22px; display:flex; align-items:center; gap:12px;
+}
+.card-icon {
+  width:40px; height:40px; background:rgba(201,168,76,0.2);
+  border-radius:10px; display:flex; align-items:center; justify-content:center;
+  font-size:18px; flex-shrink:0;
+}
+.card-title { color:var(--white); font-weight:700; font-size:17px; }
+.card-sub { color:rgba(255,255,255,0.55); font-size:12px; margin-top:2px; }
+.card-body { padding:22px; }
+
+.field-group { margin-bottom:20px; }
+.field-label {
+  display:flex; flex-direction:column; gap:2px;
+  font-size:14px; font-weight:600; color:var(--text-dark); margin-bottom:8px;
+}
+.field-label .lbl-gu { font-family:'Noto Sans Gujarati',sans-serif; font-size:12px; color:var(--text-med); }
+.field-label .lbl-hi { font-family:'Noto Sans Devanagari',sans-serif; font-size:12px; color:var(--text-light); }
+.required-star { color:#e53e3e; }
+.field-hint { font-size:11px; color:var(--text-light); margin-top:5px; }
+
+input[type=text], input[type=tel], input[type=number], textarea, select {
+  width:100%; padding:13px 16px; border:1.5px solid #e2e8f0;
+  border-radius:10px; font-size:14px; font-family:'Outfit',sans-serif;
+  color:var(--text-dark); transition:var(--transition); background:var(--white);
+  outline:none; appearance:none;
+}
+input:focus, textarea:focus, select:focus {
+  border-color:var(--navy); box-shadow:0 0 0 3px rgba(25,40,64,0.08);
+}
+input.error { border-color:#e53e3e; }
+textarea { resize:vertical; min-height:80px; }
+
+.toggle-group { display:flex; gap:10px; }
+.toggle-btn {
+  flex:1; padding:13px 10px; border:2px solid #e2e8f0;
+  border-radius:10px; font-size:13px; font-family:'Outfit',sans-serif;
+  font-weight:600; cursor:pointer; transition:var(--transition);
+  background:var(--white); color:var(--text-med); text-align:center;
+}
+.toggle-btn.active-yes {
+  border-color:#38a169; background:#f0fff4; color:#276749;
+}
+.toggle-btn.active-no {
+  border-color:#e53e3e; background:#fff5f5; color:#c53030;
+}
+
+.vehicle-fields { margin-top:18px; padding-top:18px; border-top:1px dashed #e2e8f0; }
+.vehicle-fields.hidden { display:none; }
+
+.count-control {
+  display:flex; align-items:center; gap:12px;
+}
+.count-btn {
+  width:36px; height:36px; border-radius:50%;
+  border:2px solid var(--navy); background:var(--white);
+  color:var(--navy); font-size:18px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:var(--transition); font-weight:700;
+}
+.count-btn:hover { background:var(--navy); color:var(--white); }
+.count-val { font-size:20px; font-weight:700; color:var(--navy); min-width:28px; text-align:center; }
+
+.cycle-size-group { display:flex; gap:10px; flex-wrap:wrap; }
+.size-btn {
+  flex:1; min-width:80px; padding:12px 8px; border:2px solid #e2e8f0;
+  border-radius:10px; cursor:pointer; transition:var(--transition);
+  text-align:center; font-family:'Outfit',sans-serif;
+  font-size:13px; font-weight:600; background:var(--white); color:var(--text-med);
+}
+.size-btn.active { border-color:var(--navy); background:#ebf0ff; color:var(--navy); }
+
+/* Committee */
+.committee-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; }
+.committee-card {
+  background:linear-gradient(135deg,#f8faff,#eef2ff);
+  border:1px solid #e2e8f0; border-radius:12px;
+  padding:16px; text-align:center;
+}
+.committee-avatar {
+  width:44px; height:44px; border-radius:50%;
+  background:linear-gradient(135deg,var(--navy),#2a4a6b);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--gold); font-weight:700; font-size:16px;
+  margin:0 auto 10px;
+}
+.committee-role { font-size:11px; color:var(--text-light); text-transform:uppercase; letter-spacing:0.8px; }
+.committee-name { font-weight:700; font-size:14px; color:var(--text-dark); margin:4px 0; }
+.committee-phone { font-size:13px; color:var(--navy); font-weight:500; }
+
+/* Submit section */
+.submit-section { text-align:center; margin-top:10px; }
+.btn-primary {
+  display:inline-flex; align-items:center; gap:10px; justify-content:center;
+  background:linear-gradient(135deg,var(--navy),#2a4a6b);
+  color:var(--white); padding:18px 36px; border-radius:14px;
+  font-size:16px; font-weight:700; font-family:'Outfit',sans-serif;
+  border:none; cursor:pointer; transition:var(--transition);
+  width:100%; box-shadow:0 6px 20px rgba(25,40,64,0.3);
+}
+.btn-primary:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(25,40,64,0.4); }
+.btn-call {
+  display:inline-flex; align-items:center; gap:8px; justify-content:center;
+  background:transparent; border:2px solid var(--gold);
+  color:var(--navy); padding:13px 28px; border-radius:12px;
+  font-size:14px; font-weight:600; font-family:'Outfit',sans-serif;
+  cursor:pointer; transition:var(--transition); width:100%; margin-top:12px;
+}
+.btn-call:hover { background:var(--gold); }
+
+/* Review Modal */
+.modal-overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(0,0,0,0.6); z-index:999;
+  align-items:flex-end; justify-content:center;
+}
+.modal-overlay.open { display:flex; }
+.modal-sheet {
+  background:var(--white); border-radius:24px 24px 0 0;
+  width:100%; max-width:680px; max-height:90vh;
+  overflow-y:auto; padding:28px 24px 40px;
+}
+.modal-handle {
+  width:40px; height:4px; background:#e2e8f0;
+  border-radius:2px; margin:0 auto 20px;
+}
+.modal-title { font-size:20px; font-weight:700; color:var(--navy); margin-bottom:18px; }
+.review-item { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #f0f0f0; font-size:14px; }
+.review-key { color:var(--text-light); }
+.review-val { font-weight:600; color:var(--text-dark); text-align:right; max-width:60%; }
+.modal-actions { display:flex; flex-direction:column; gap:10px; margin-top:24px; }
+.btn-confirm {
+  background:linear-gradient(135deg,#25d366,#1da851);
+  color:var(--white); padding:17px; border:none; border-radius:14px;
+  font-size:16px; font-weight:700; font-family:'Outfit',sans-serif;
+  cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px;
+}
+.btn-edit {
+  background:var(--white); border:2px solid var(--navy);
+  color:var(--navy); padding:14px; border-radius:14px;
+  font-size:14px; font-weight:600; font-family:'Outfit',sans-serif; cursor:pointer;
+}
+
+.status-toast {
+  position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+  background:var(--navy-dark); color:var(--white);
+  padding:12px 24px; border-radius:100px; font-size:14px; font-weight:500;
+  z-index:9999; display:none; box-shadow:0 8px 24px rgba(0,0,0,0.3);
+}
+
+@media(max-width:480px) {
+  .login-card { padding:36px 24px; }
+  .committee-grid { grid-template-columns:1fr 1fr; }
+}
+</style>
 </head>
 <body>
-<!-- Full portal content - see attached HTML file for complete source -->
+
+<!-- ===== LOGIN SCREEN ===== -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">CH</div>
+    <div class="login-title">Coral Heights</div>
+    <div class="login-sub">A WING &middot; VEHICLE REGISTRATION PORTAL &middot; 2026</div>
+    <div class="login-field">
+      <label>User ID</label>
+      <input type="text" id="loginUser" placeholder="Enter User ID" autocomplete="off">
+    </div>
+    <div class="login-field">
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="Enter Password">
+    </div>
+    <button class="login-btn" onclick="doLogin()">&#128275; Login to Continue</button>
+    <div class="login-err" id="loginErr">&#9888;&#65039; Invalid credentials. Please try again.</div>
+    <p class="login-secure">&#128274; Secure access for Coral Heights A Wing residents &amp; committee</p>
+  </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div id="mainApp">
+  <div class="app-header">
+    <div class="header-badge">&#127962; A Wing &middot; 2026</div>
+    <div class="header-logo">CH</div>
+    <h1>Coral Heights<br>Vehicle Registration</h1>
+    <div class="lang-row">
+      <span class="lang-tag" style="font-family:'Noto Sans Gujarati',sans-serif">&#3056;&#3029;&#3045;&#3009;&#3009; &#3064;&#3006;&#3024;&#3021;&#3021;&#3030; &mdash; &#3057;&#3006;&#3009;&#3014; &#3021;&#3021;&#3045;&#3047;&#3022;&#3023;&#3026; &#3038;&#3045;&#3019;</span>
+    </div>
+    <div class="lang-row">
+      <span class="lang-tag" style="font-family:'Noto Sans Devanagari',sans-serif">&#2325;&#2379;&#2352;&#2354; &#2361;&#2366;&#2311;&#2335;&#2381;&#2360; &mdash; &#2357;&#2366;&#2361;&#2344; &#2346;&#2306;&#2332;&#2368;&#2325;&#2352;&#2339; &#2347;&#2377;&#2352;&#2381;&#2350;</span>
+    </div>
+    <p class="subtitle">Fill digitally &middot; Submit via WhatsApp &middot; Physical copy later</p>
+  </div>
+
+  <div class="container">
+    <div class="notice-banner">
+      <p class="notice-en">&#9889; Digital submission is accepted now &mdash; no delay!</p>
+      <p class="notice-alt">Physical copies to be collected separately.</p>
+      <p class="notice-alt" style="font-family:'Noto Sans Gujarati',sans-serif">&#9889; &#3012;&#3009;&#3008;&#3009;&#3023;&#3039;&#3026; &#3047;&#3021;&#3021;&#3005;&#3047;&#3021;&#3021;&#3030;&#3006;&#3014; &#3025;&#3019; &mdash; &#3038;&#3045;&#3019; &#3014;&#3043;&#3045;&#3039; &#3006;&#3014; WhatsApp &#3046;&#3045; &#3019;&#3039;&#3046;&#3039;!</p>
+    </div>
+
+    <!-- RESIDENT DETAILS -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">&#127968;</div>
+        <div>
+          <div class="card-title">Resident Details</div>
+          <div class="card-sub">Your flat and contact information</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="field-group">
+          <label class="field-label">
+            Flat Number <span class="required-star">*</span>
+            <span class="lbl-gu">&#3038;&#3039;&#3023;&#3006;&#3021;&#3021; &#3021;&#3021;&#3006;&#3019;&#3015;&#3045; <span style="color:#e53e3e">*</span></span>
+          </label>
+          <input type="text" id="flatNo" placeholder="e.g. A-101" required>
+          <div class="field-hint">&#128161; Format: A-[flat number]</div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">
+            Contact Number <span class="required-star">*</span>
+            <span class="lbl-gu">&#3047;&#3021;&#3021;&#3006;&#3019;&#3023;&#3006;&#3021;&#3021; &#3021;&#3021;&#3006;&#3019;&#3015;&#3045; <span style="color:#e53e3e">*</span></span>
+          </label>
+          <input type="tel" id="contact" placeholder="10-digit mobile number" required>
+          <div class="field-hint">&#128161; 10-digit mobile number</div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">
+            Resident Full Name <span class="required-star">*</span>
+            <span class="lbl-gu">&#3045;&#3009;&#3047;&#3039;&#3006;&#3047;&#3021;&#3021;&#3021;&#3021;&#3039;&#3019; &#3046;&#3043;&#3045;&#3039;&#3019; &#3021;&#3021;&#3006;&#3019;&#3015; <span style="color:#e53e3e">*</span></span>
+          </label>
+          <input type="text" id="resName" placeholder="Full name as per society records" required>
+          <div class="field-hint">&#128161; Enter your name as per society records</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAR SECTION -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">&#128664;</div>
+        <div>
+          <div class="card-title">Car / 4-Wheeler</div>
+          <div class="card-sub">Tap YES if you own a car</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <label class="field-label">Car Registered in Society?</label>
+        <div class="toggle-group">
+          <button class="toggle-btn" id="carYes" onclick="toggleVehicle('car',true)">&#9989; YES &mdash; I have a Car</button>
+          <button class="toggle-btn" id="carNo" onclick="toggleVehicle('car',false)">&#10060; NO &mdash; No Car</button>
+        </div>
+        <div class="vehicle-fields hidden" id="carFields">
+          <div class="field-group">
+            <label class="field-label">Number of Cars</label>
+            <div class="count-control">
+              <button class="count-btn" onclick="changeCount('carCount',-1)">&#8722;</button>
+              <span class="count-val" id="carCountVal">1</span>
+              <button class="count-btn" onclick="changeCount('carCount',1)">&#43;</button>
+              <input type="hidden" id="carCount" value="1">
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Vehicle Registration Number<span class="lbl-gu"> (each car)</span></label>
+            <textarea id="carReg" placeholder="GJ-05-XX-0000 · List all if multiple"></textarea>
+            <div class="field-hint">&#128161; Format: GJ-05-XX-0000 &middot; List all if multiple</div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Vehicle Make &amp; Model</label>
+            <input type="text" id="carModel" placeholder="e.g. Maruti Swift — White 🏷️">
+            <div class="field-hint">&#128161; Include colour for easy identification</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TWO-WHEELER SECTION -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">&#128690;</div>
+        <div>
+          <div class="card-title">Two-Wheeler</div>
+          <div class="card-sub">Bike, scooter or moped</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <label class="field-label">Two-Wheeler Registered?</label>
+        <div class="toggle-group">
+          <button class="toggle-btn" id="bikeYes" onclick="toggleVehicle('bike',true)">&#9989; YES &mdash; I have a 2-Wheeler</button>
+          <button class="toggle-btn" id="bikeNo" onclick="toggleVehicle('bike',false)">&#10060; NO &mdash; None</button>
+        </div>
+        <div class="vehicle-fields hidden" id="bikeFields">
+          <div class="field-group">
+            <label class="field-label">Number of Two-Wheelers</label>
+            <div class="count-control">
+              <button class="count-btn" onclick="changeCount('bikeCount',-1)">&#8722;</button>
+              <span class="count-val" id="bikeCountVal">1</span>
+              <button class="count-btn" onclick="changeCount('bikeCount',1)">&#43;</button>
+              <input type="hidden" id="bikeCount" value="1">
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Model &amp; Registration Number</label>
+            <textarea id="bikeDetails" placeholder="Model name + Reg. number + colour · List all if multiple"></textarea>
+            <div class="field-hint">&#128161; Model name + Reg. number + colour &middot; List all if multiple</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BICYCLE SECTION -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">&#128690;</div>
+        <div>
+          <div class="card-title">Bicycle</div>
+          <div class="card-sub">Cycles kept in society premises</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <label class="field-label">Do you have a Bicycle?</label>
+        <div class="toggle-group">
+          <button class="toggle-btn" id="cycleYes" onclick="toggleVehicle('cycle',true)">&#9989; YES &mdash; I have a Cycle</button>
+          <button class="toggle-btn" id="cycleNo" onclick="toggleVehicle('cycle',false)">&#10060; NO &mdash; None</button>
+        </div>
+        <div class="vehicle-fields hidden" id="cycleFields">
+          <div class="field-group">
+            <label class="field-label">Number of Cycles</label>
+            <div class="count-control">
+              <button class="count-btn" onclick="changeCount('cycleCount',-1)">&#8722;</button>
+              <span class="count-val" id="cycleCountVal">1</span>
+              <button class="count-btn" onclick="changeCount('cycleCount',1)">&#43;</button>
+              <input type="hidden" id="cycleCount" value="1">
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Cycle Size / Type</label>
+            <div class="cycle-size-group">
+              <button class="size-btn" onclick="setCycleSize('small',this)">&#128309; Small<br><small>(Kids)</small></button>
+              <button class="size-btn" onclick="setCycleSize('medium',this)">&#128257; Medium<br><small>(Teen)</small></button>
+              <button class="size-btn" onclick="setCycleSize('adult',this)">&#128994; Adult<br><small>(Full-size)</small></button>
+            </div>
+            <input type="hidden" id="cycleSize" value="">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Description</label>
+            <input type="text" id="cycleDesc" placeholder="Brand, features, distinguishing marks">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Colour</label>
+            <input type="text" id="cycleColor" placeholder="e.g. Red, Blue, Black">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMMITTEE CONTACTS -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon">&#127963;</div>
+        <div>
+          <div class="card-title">Society Committee</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="committee-grid">
+          <div class="committee-card">
+            <div class="committee-avatar">M</div>
+            <div class="committee-role">President</div>
+            <div class="committee-name">Rakesh R Patel</div>
+            <div class="committee-phone">9825303960</div>
+          </div>
+          <div class="committee-card">
+            <div class="committee-avatar">R</div>
+            <div class="committee-role">Treasurer</div>
+            <div class="committee-name">Mehul Joshi</div>
+            <div class="committee-phone">9898716699</div>
+          </div>
+          <div class="committee-card">
+            <div class="committee-avatar">S</div>
+            <div class="committee-role">Secretary</div>
+            <div class="committee-name">Sagar Hirani</div>
+            <div class="committee-phone">9727039796</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="submit-section">
+      <button class="btn-primary" onclick="openReview()">&#10003; Review &amp; Send on WhatsApp</button>
+      <button class="btn-call" onclick="window.open('tel:9727039796')">&#128222; Call Now</button>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEW MODAL -->
+<div class="modal-overlay" id="reviewModal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">&#10003; Review Your Form</div>
+    <p style="color:#666;font-size:13px;margin-bottom:18px">Please check the details below before sending to WhatsApp</p>
+    <div id="reviewContent"></div>
+    <div class="modal-actions">
+      <button class="btn-confirm" onclick="sendWhatsApp()">&#9989; Confirm &amp; Send via WhatsApp</button>
+      <button class="btn-edit" onclick="closeReview()">&#9999;&#65039; Go Back &amp; Edit</button>
+    </div>
+  </div>
+</div>
+
+<div class="status-toast" id="toast">&#9989; Opening WhatsApp&hellip;</div>
+
+<script>
+// ===== AUTH =====
+const VALID_USERS = [
+  {id:'Coral Heights', pass:'Awing@123'},
+  {id:'coral heights', pass:'Awing@123'},
+  {id:'CORAL HEIGHTS', pass:'Awing@123'}
+];
+
+function doLogin(){
+  const uid = document.getElementById('loginUser').value.trim();
+  const pwd = document.getElementById('loginPass').value;
+  const valid = VALID_USERS.some(u => u.id===uid && u.pass===pwd);
+  if(valid){
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('mainApp').style.display='block';
+  } else {
+    document.getElementById('loginErr').style.display='block';
+  }
+}
+
+document.addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
+
+// ===== VEHICLE TOGGLES =====
+const vehicleState = {car:null, bike:null, cycle:null};
+
+function toggleVehicle(type, yes){
+  vehicleState[type] = yes;
+  const fields = document.getElementById(type+'Fields');
+  const yBtn = document.getElementById(type+'Yes');
+  const nBtn = document.getElementById(type+'No');
+  yBtn.className = 'toggle-btn' + (yes?' active-yes':'');
+  nBtn.className = 'toggle-btn' + (!yes?' active-no':'');
+  fields.classList.toggle('hidden', !yes);
+}
+
+// ===== COUNT CONTROL =====
+function changeCount(id, delta){
+  const inp = document.getElementById(id);
+  let v = parseInt(inp.value)+delta;
+  if(v<1) v=1; if(v>10) v=10;
+  inp.value = v;
+  document.getElementById(id+'Val').textContent = v;
+}
+
+// ===== CYCLE SIZE =====
+function setCycleSize(size, btn){
+  document.querySelectorAll('.size-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('cycleSize').value = size;
+}
+
+// ===== REVIEW & WHATSAPP =====
+function getVal(id){ return (document.getElementById(id)||{}).value||''; }
+
+function openReview(){
+  const flat = getVal('flatNo');
+  const contact = getVal('contact');
+  const name = getVal('resName');
+  if(!flat||!contact||!name){
+    alert('Please fill all required fields (Flat No, Contact, Name)');
+    return;
+  }
+  const items = [
+    {k:'Flat Number', v: flat||'—'},
+    {k:'Contact', v: contact||'—'},
+    {k:'Resident Name', v: name||'—'},
+    {k:'Car', v: vehicleState.car===null?'Not selected': vehicleState.car ? 'YES ('+getVal('carCount')+') — '+getVal('carReg') : 'NO'},
+    {k:'2-Wheeler', v: vehicleState.bike===null?'Not selected': vehicleState.bike ? 'YES ('+getVal('bikeCount')+') — '+getVal('bikeDetails') : 'NO'},
+    {k:'Bicycle', v: vehicleState.cycle===null?'Not selected': vehicleState.cycle ? 'YES ('+getVal('cycleCount')+') '+getVal('cycleSize') : 'NO'},
+  ];
+  document.getElementById('reviewContent').innerHTML = items.map(i=>
+    '<div class="review-item"><span class="review-key">'+i.k+'</span><span class="review-val">'+i.v+'</span></div>'
+  ).join('');
+  document.getElementById('reviewModal').classList.add('open');
+}
+function closeReview(){ document.getElementById('reviewModal').classList.remove('open'); }
+
+function sendWhatsApp(){
+  const flat = getVal('flatNo');
+  const contact = getVal('contact');
+  const name = getVal('resName');
+  let msg = '*Coral Heights A Wing — Vehicle Registration*\n';
+  msg += '━━━━━━━━━━━━━━━━━━━━\n';
+  msg += '*Flat:* '+flat+'\n';
+  msg += '*Contact:* '+contact+'\n';
+  msg += '*Name:* '+name+'\n\n';
+  msg += '*🚗 Car:* '+(vehicleState.car ? 'YES ('+getVal('carCount')+')\nReg: '+getVal('carReg')+'\nModel: '+getVal('carModel') : 'NO')+'\n\n';
+  msg += '*🏍️ Two-Wheeler:* '+(vehicleState.bike ? 'YES ('+getVal('bikeCount')+')\n'+getVal('bikeDetails') : 'NO')+'\n\n';
+  msg += '*🚲 Bicycle:* '+(vehicleState.cycle ? 'YES ('+getVal('cycleCount')+') '+getVal('cycleSize')+'\n'+getVal('cycleDesc')+' '+getVal('cycleColor') : 'NO')+'\n\n';
+  msg += '━━━━━━━━━━━━━━━━━━━━\n';
+  msg += '_Submitted digitally — April 2026_';
+  const ph = '919727039796';
+  const url = 'https://wa.me/'+ph+'?text='+encodeURIComponent(msg);
+  closeReview();
+  const toast = document.getElementById('toast');
+  toast.style.display='block';
+  setTimeout(()=>{ toast.style.display='none'; window.open(url,'_blank'); }, 800);
+}
+</script>
 </body>
 </html>
